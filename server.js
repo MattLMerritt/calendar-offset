@@ -72,4 +72,7 @@ app.get('/', async (req, res) => {
 
 app.listen(port, () => {
     console.log(`Calendar Fixer running on port ${port}`);
+    if (!process.env.CALENDAR_URL) {
+        console.warn("WARNING: CALENDAR_URL environment variable is not set!");
+    }
 });

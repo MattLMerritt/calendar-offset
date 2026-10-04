@@ -5,5 +5,10 @@ services:
     restart: unless-stopped
     ports:
       - "${PORT:-3000}:${PORT:-3000}"
+    environment:
+      - CALENDAR_URL
+      - PORT=${PORT:-3000}
     env_file:
-      - .env
+      - path: .env
+        required: false
+

@@ -11,7 +11,7 @@ Originally designed to load `.ics` feeds into Obsidian calendar extensions (and 
 - **Dynamic Fetching**: Proxies and formats your calendar feed on request.
 - **Timezone Adjustment**: Converts UTC `DTSTART`/`DTEND` timestamps to `America/Chicago` local time stamps.
 - **CORS Support**: Headers enabled for cross-origin widget and client requests.
-- **Configurable via Environment**: Securely configure secret feed URLs and ports via `.env`.
+- **Configurable via Environment**: Set `CALENDAR_URL` and `PORT` directly as environment variables (or optionally via `.env`).
 - **Docker Ready**: Minimal Docker setup using `node:18-alpine`.
 
 ---
@@ -35,24 +35,31 @@ npm install
 
 ### 2. Configuration
 
-Copy the example environment configuration file to `.env`:
+Set the environment variables directly in your environment:
+
+```bash
+export CALENDAR_URL="https://calendar.google.com/calendar/ical/<your_calendar_address>/basic.ics"
+export PORT=3000   # Optional, defaults to 3000
+```
+
+*(Optional)* If you prefer using a `.env` file locally instead of exporting variables:
 
 ```bash
 cp .env.example .env
+# Edit .env and set your CALENDAR_URL
 ```
 
-Edit `.env` and set your secret iCal feed URL:
-
-```env
-CALENDAR_URL=https://calendar.google.com/calendar/ical/<your_calendar_address>/basic.ics
-PORT=3000
-```
-
-> **Note**: Never commit your `.env` file or certificates to version control. They are ignored by default in `.gitignore`.
+> **Note**: A `.env` file is completely optional. Never commit `.env` or certificates to version control (they are ignored by default).
 
 ### 3. Running Locally
 
-Start the server:
+With environment variables set:
+
+```bash
+CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" npm start
+```
+
+Or if already exported or using an optional `.env`:
 
 ```bash
 npm start
@@ -66,7 +73,13 @@ The server will start listening at `http://localhost:3000`.
 
 ### Using Docker Compose (Recommended)
 
-Make sure you have created your `.env` file from `.env.example`, then run:
+You can run Docker Compose using environment variables directly:
+
+```bash
+CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" docker compose up -d
+```
+
+Or if you have exported `CALENDAR_URL` or placed it in an optional `.env` file:
 
 ```bash
 docker compose up -d
@@ -88,16 +101,18 @@ docker compose down
 
 2. **Run the Container**:
 
-   Run passing the `.env` file:
-   ```bash
-   docker run -d -p 3000:3000 --env-file .env --name calendar-offset calendar-offset
-   ```
+   Pass the environment variable directly:
 
-   Or pass environment variables inline:
    ```bash
    docker run -d -p 3000:3000 \
      -e CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" \
      --name calendar-offset calendar-offset
+   ```
+
+   *(Optional)* If using a `.env` file:
+
+   ```bash
+   docker run -d -p 3000:3000 --env-file .env --name calendar-offset calendar-offset
    ```
 
 ---
