@@ -64,27 +64,41 @@ The server will start listening at `http://localhost:3000`.
 
 ## Docker Deployment
 
-### Build the Image
+### Using Docker Compose (Recommended)
+
+Make sure you have created your `.env` file from `.env.example`, then run:
 
 ```bash
-docker build -t calendar-offset .
+docker compose up -d
 ```
 
-### Run the Container
-
-Run passing the `.env` file:
+To stop the service:
 
 ```bash
-docker run -d -p 3000:3000 --env-file .env --name calendar-offset calendar-offset
+docker compose down
 ```
 
-Or pass environment variables inline:
+### Using Docker CLI
 
-```bash
-docker run -d -p 3000:3000 \
-  -e CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" \
-  --name calendar-offset calendar-offset
-```
+1. **Build the Image**:
+
+   ```bash
+   docker build -t calendar-offset .
+   ```
+
+2. **Run the Container**:
+
+   Run passing the `.env` file:
+   ```bash
+   docker run -d -p 3000:3000 --env-file .env --name calendar-offset calendar-offset
+   ```
+
+   Or pass environment variables inline:
+   ```bash
+   docker run -d -p 3000:3000 \
+     -e CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" \
+     --name calendar-offset calendar-offset
+   ```
 
 ---
 
