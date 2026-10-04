@@ -71,6 +71,17 @@ The server will start listening at `http://localhost:3000`.
 
 ## Docker Deployment
 
+### Run Directly from Docker Hub
+
+The pre-built multi-architecture image (`linux/amd64` and `linux/arm64`) is published on Docker Hub as `merrittlmatt/calendar-offset:latest`:
+
+```bash
+docker run -d -p 3000:3000 \
+  -e CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" \
+  --name calendar-offset \
+  merrittlmatt/calendar-offset:latest
+```
+
 ### Using Docker Compose (Recommended)
 
 You can run Docker Compose using environment variables directly:
@@ -91,28 +102,18 @@ To stop the service:
 docker compose down
 ```
 
-### Using Docker CLI
+### Building & Publishing Manually
 
-1. **Build the Image**:
+1. **Build locally**:
 
    ```bash
-   docker build -t calendar-offset .
+   docker build -t merrittlmatt/calendar-offset:latest .
    ```
 
-2. **Run the Container**:
-
-   Pass the environment variable directly:
+2. **Build and push multi-architecture image (AMD64 & ARM64)**:
 
    ```bash
-   docker run -d -p 3000:3000 \
-     -e CALENDAR_URL="https://calendar.google.com/calendar/ical/.../basic.ics" \
-     --name calendar-offset calendar-offset
-   ```
-
-   *(Optional)* If using a `.env` file:
-
-   ```bash
-   docker run -d -p 3000:3000 --env-file .env --name calendar-offset calendar-offset
+   docker buildx build --platform linux/amd64,linux/arm64 -t merrittlmatt/calendar-offset:latest --push .
    ```
 
 ---

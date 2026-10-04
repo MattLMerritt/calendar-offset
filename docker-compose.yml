@@ -1,5 +1,6 @@
 services:
   calendar-offset:
+    image: merrittlmatt/calendar-offset:latest
     build: .
     container_name: calendar-offset
     restart: unless-stopped
@@ -11,4 +12,5 @@ services:
     env_file:
       - path: .env
         required: false
+
 
