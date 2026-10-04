@@ -1,0 +1,13 @@
+node_modules
+.env
+.env.*
+!.env.example
+certs
+*.pem
+*.key
+*.crt
+*.cert
+.git
+npm-debug.log*
+.DS_Store
+
